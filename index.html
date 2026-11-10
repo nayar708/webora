@@ -387,6 +387,7 @@
     }
 
     /* CENÍK */
+
     .pricing {
       position: relative;
       background: #090a15;
@@ -551,6 +552,14 @@
       margin-bottom: 32px;
     }
 
+    .contact-actions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
     footer {
       border-top: 1px solid var(--border);
       padding: 32px 0;
@@ -633,6 +642,7 @@
       .service-card { padding: 26px; }
       .about-box { padding: 32px; }
       .preview-window { height: 230px; }
+      .contact-actions .btn { width: 100%; }
     }
 
     @media(prefers-reduced-motion:reduce) {
@@ -699,8 +709,12 @@
         </p>
 
         <div class="actions">
-          <a class="btn btn-primary" href="#projects">Prohlédnout projekty ↗</a>
-          <a class="btn btn-outline" href="#pricing">Zobrazit ceník →</a>
+          <a class="btn btn-primary" href="#projects">
+            Prohlédnout projekty ↗
+          </a>
+          <a class="btn btn-outline" href="#pricing">
+            Zobrazit ceník →
+          </a>
         </div>
 
         <div class="hero-bottom">
@@ -778,6 +792,7 @@
                 <span class="browser-dot"></span>
                 <span class="browser-dot"></span>
                 <span class="browser-dot"></span>
+
                 <div class="browser-address">
                   nayar708.github.io/lumi-bistro/
                 </div>
@@ -822,7 +837,6 @@
       </div>
     </section>
 
-    <!-- NOVÁ SEKCE: CENÍK -->
     <section class="pricing" id="pricing">
       <div class="container">
         <div class="reveal">
@@ -863,7 +877,9 @@
             </ul>
 
             <a class="btn btn-outline inquiry-btn"
-               href="#contact"
+               href="https://docs.google.com/forms/d/e/1FAIpQLScNUAof3DPyt7Ho6hbwRPiTZQmm4ywJlulR12xml7hZCuQn7g/viewform"
+               target="_blank"
+               rel="noopener noreferrer"
                data-plan="START">
               Nezávazně poptat →
             </a>
@@ -894,7 +910,9 @@
             </ul>
 
             <a class="btn btn-primary inquiry-btn"
-               href="#contact"
+               href="https://docs.google.com/forms/d/e/1FAIpQLScNUAof3DPyt7Ho6hbwRPiTZQmm4ywJlulR12xml7hZCuQn7g/viewform"
+               target="_blank"
+               rel="noopener noreferrer"
                data-plan="BUSINESS">
               Nezávazně poptat ↗
             </a>
@@ -924,7 +942,9 @@
             </ul>
 
             <a class="btn btn-outline inquiry-btn"
-               href="#contact"
+               href="https://docs.google.com/forms/d/e/1FAIpQLScNUAof3DPyt7Ho6hbwRPiTZQmm4ywJlulR12xml7hZCuQn7g/viewform"
+               target="_blank"
+               rel="noopener noreferrer"
                data-plan="PREMIUM">
               Nezávazně poptat →
             </a>
@@ -985,9 +1005,20 @@
           najdeme vhodné řešení.
         </p>
 
-        <a class="btn btn-primary" id="emailLink" href="#">
-          Napsat e-mail ↗
-        </a>
+        <div class="contact-actions">
+          <a
+            class="btn btn-primary"
+            href="https://docs.google.com/forms/d/e/1FAIpQLScNUAof3DPyt7Ho6hbwRPiTZQmm4ywJlulR12xml7hZCuQn7g/viewform"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Nezávazně poptat web ↗
+          </a>
+
+          <a class="btn btn-outline" id="emailLink" href="#">
+            Napsat e-mail ↗
+          </a>
+        </div>
       </div>
     </section>
   </main>
@@ -1006,7 +1037,6 @@
   </footer>
 
   <script>
-    // SEM DOPLŇ SVŮJ SKUTEČNÝ PRACOVNÍ E-MAIL
     const CONTACT_EMAIL = "webora.studio154@gmail.com";
 
     const header = document.getElementById("header");
@@ -1020,11 +1050,13 @@
 
     menuToggle.addEventListener("click", () => {
       const open = navLinks.classList.toggle("open");
+
       menuToggle.setAttribute("aria-expanded", String(open));
       menuToggle.setAttribute(
         "aria-label",
         open ? "Zavřít menu" : "Otevřít menu"
       );
+
       menuToggle.textContent = open ? "✕" : "☰";
     });
 
@@ -1059,43 +1091,18 @@
     document.getElementById("year").textContent =
       new Date().getFullYear();
 
-    function createMailLink(plan = "") {
-      const subject = plan
-        ? "Poptávka webu Webora – " + plan
-        : "Poptávka webu – Webora";
-
-      const body = plan
-        ? "Dobrý den,\n\nmám zájem o balíček " +
-          plan + ".\n\nRád/a bych probral/a možnosti webu.\n"
-        : "Dobrý den,\n\nmám zájem o vytvoření webových stránek.\n";
+    function createMailLink() {
+      const subject = "Poptávka webu – Webora";
+      const body =
+        "Dobrý den,\n\n" +
+        "mám zájem o vytvoření webových stránek.\n";
 
       return "mailto:" + CONTACT_EMAIL +
         "?subject=" + encodeURIComponent(subject) +
         "&body=" + encodeURIComponent(body);
     }
 
-    emailLink.addEventListener("click", event => {
-      if (!CONTACT_EMAIL) {
-        event.preventDefault();
-        alert("Kontaktní e-mail bude brzy doplněn.");
-      } else {
-        emailLink.href = createMailLink();
-      }
-    });
-
-    document.querySelectorAll(".inquiry-btn").forEach(button => {
-      button.addEventListener("click", event => {
-        if (!CONTACT_EMAIL) {
-          event.preventDefault();
-          alert("Kontaktní e-mail bude brzy doplněn.");
-          return;
-        }
-
-        event.preventDefault();
-        const plan = button.dataset.plan;
-        window.location.href = createMailLink(plan);
-      });
-    });
+    emailLink.href = createMailLink();
   </script>
 </body>
 </html>
